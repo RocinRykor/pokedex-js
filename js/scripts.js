@@ -28,24 +28,34 @@ let pokemonRepository = (function () {
         return pokemonList;
     }
 
+    function showDetails(pokemon) {
+        console.log(pokemon.name);
+    }
+
+    function addListItem(pokemon) {
+        const documentPokemonList = document.querySelector(".pokemon-list"); //Selecting the unordered list in the HTML
+
+        let listItem = document.createElement("li"); //Creating a list item and setting it's class for the css file
+        listItem.classList.add("list-item");
+
+        let button = document.createElement("button"); //Creating a button, applying the pokemon name to it, and setting it's class for the css file.
+        button.innerText = pokemon.name;
+        button.classList.add("list-item__button");
+        button.addEventListener("click", function () {
+            showDetails(pokemon);
+        });
+
+        listItem.append(button); //Adding the button to the list item
+        documentPokemonList.append(listItem); //adding the list item to the list itself
+    }
+
     return {
         add: add,
         getAll: getAll,
+        addListItem: addListItem,
     };
 })();
 
-//Initalize varibles to be used later
-let heightThreshold = 35; //Anything this size or over is a big pokemon
-
 pokemonRepository.getAll().forEach(function printDetails(pokemon) {
-    let isBig = pokemon.height >= heightThreshold; //Checks wether or not the pokemon is over the height threshold
-
-    document.write(`${pokemon.name} (${pokemon.height} in.)`); //Writing the base string for the pokemon
-
-    if (isBig) {
-        //if the pokemon is big
-        document.write(" - Wow! They are pretty big!"); //Appending the special identifier
-    }
-
-    document.write("<br>"); //Finalizing  with a line break
+    pokemonRepository.addListItem(pokemon);
 });

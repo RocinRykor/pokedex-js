@@ -1,0 +1,20 @@
+html {
+    background-color: darkgray;
+}
+
+.list-item__button {
+    background: gray;
+    border: 2px solid black;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 32px;
+    margin: 5px 2px;
+    transition-duration: 0.25s;
+    cursor: pointer;
+}
+
+.list-item__button:hover {
+    border-top: 4px solid white;
+}
