@@ -3,7 +3,9 @@ Pokemon API and DOM Manipulation
  * * * */
 let pokemonRepository = (function () {
     let pokemonList = [];
-    let apiURL = "https://pokeapi.co/api/v2/pokemon/?limit=150";
+    let apiLimit = 150; //How many pokemon we want total
+
+    let apiURL = `https://pokeapi.co/api/v2/pokemon/?limit=${apiLimit}`;
 
     //Grab the name and URL for the first 150 pokemon
     function loadlist() {
@@ -52,43 +54,61 @@ let pokemonRepository = (function () {
         return pokemonList;
     }
 
-    //Create a button for a pokemon, labeled with its name, and add it to the document.
+    /*
+    Create a button for a pokemon, labeled with its name, and add it to the document.
+    
+    There was a small error that pokemon were getting added to the page out of order, 
+    Becuase of the addition of the image to the card for each pokemon an async request was made to retrieve that image, afterwards the card was created.
+    To solve this, I create and place the card first ommiting the image so that it is placed in the correct order.
+    As soon as the async request is returned, the appropriate img element is selected and the src link for that image is updated.
+    */
     function addListItem(pokemon) {
+        //Creating the card now so that it is linked to the pokemon and added in the correct order regardless of async
+        createCard(pokemon);
+
         pokemonRepository.loadDetails(pokemon).then(function () {
-            const documentPokemonList = document.querySelector(".pokemon-list"); //Selecting the unordered list in the HTML
-
-            let pokemonCard = document.createElement("div");
-            pokemonCard.classList.add("pokemon-card");
-
-            let listItem = document.createElement("li"); //Creating a list item and setting it's class for the css file
-            listItem.classList.add("list-item");
-
-            let titleElement = document.createElement("p");
-            titleElement.classList.add("card-title");
-            titleElement.textContent = pokemon.name.toUpperCase();
-
-            let imgElement = document.createElement("img");
-            imgElement.classList.add("card-image");
-            imgElement.src = pokemon.imageFront;
-
-            let button = document.createElement("button"); //Creating a button, applying the pokemon name to it, and setting it's class for the css file.
-            button.innerText = "Details";
-            button.classList.add("card-button");
-            button.addEventListener("click", function () {
-                showDetails(pokemon);
-            });
-
-            pokemonCard.appendChild(titleElement);
-
-            let cardBody = document.createElement("div");
-            cardBody.classList.add("card-body");
-
-            cardBody.appendChild(imgElement);
-            cardBody.appendChild(button);
-
-            pokemonCard.appendChild(cardBody);
-            documentPokemonList.appendChild(pokemonCard); //adding the list item to the list itself
+            //The only bit of information the card is missing is populating the front image
+            document.querySelector(`.card-image.${pokemon.name}`).src =
+                pokemon.imageFront;
         });
+    }
+
+    function createCard(pokemon) {
+        const documentPokemonList = document.querySelector(".pokemon-list"); //Selecting the unordered list in the HTML
+
+        let pokemonCard = document.createElement("div");
+        pokemonCard.classList.add("pokemon-card");
+
+        let listItem = document.createElement("li"); //Creating a list item and setting it's class for the css file
+        listItem.classList.add("list-item");
+
+        let titleElement = document.createElement("p");
+        titleElement.classList.add("card-title");
+        titleElement.textContent = pokemon.name.toUpperCase();
+
+        let imgElement = document.createElement("img");
+        imgElement.classList.add("card-image");
+        imgElement.classList.add(pokemon.name); //Adding this to allow searching for updating the image after an async request
+
+        let button = document.createElement("button"); //Creating a button, applying the pokemon name to it, and setting it's class for the css file.
+        button.innerText = "Details";
+        button.classList.add("card-button");
+        button.addEventListener("click", function () {
+            showDetails(pokemon);
+        });
+
+        let cardBody = document.createElement("div");
+        cardBody.classList.add("card-body");
+
+        cardBody.appendChild(imgElement);
+        cardBody.appendChild(button);
+
+        pokemonCard.appendChild(titleElement);
+        pokemonCard.appendChild(cardBody);
+
+        documentPokemonList.appendChild(pokemonCard); //adding the list item to the list itself
+
+        return pokemonCard;
     }
 
     function displayString(string) {
