@@ -3,9 +3,8 @@ Pokemon API and DOM Manipulation
  * * * */
 let pokemonRepository = (function () {
     let pokemonList = [];
-    let apiLimit = 150; //How many pokemon we want total
-
-    let apiURL = `https://pokeapi.co/api/v2/pokemon/?limit=${apiLimit}`;
+    const apiLimit = 12; //How many pokemon we want total
+    const apiURL = `https://pokeapi.co/api/v2/pokemon/?limit=${apiLimit}`;
 
     //Grab the name and URL for the first 150 pokemon
     function loadlist() {
@@ -68,45 +67,40 @@ let pokemonRepository = (function () {
 
         pokemonRepository.loadDetails(pokemon).then(function () {
             //The only bit of information the card is missing is populating the front image
-            document.querySelector(`.card-image.${pokemon.name}`).src =
-                pokemon.imageFront;
+            $("#" + pokemon.name).attr("src", pokemon.imageFront);
         });
     }
 
     function createCard(pokemon) {
-        const documentPokemonList = document.querySelector(".pokemon-list"); //Selecting the unordered list in the HTML
+        const documentPokemonList = $(".pokemon-list"); //Selecting the unordered list in the HTML
 
-        let pokemonCard = document.createElement("div");
-        pokemonCard.classList.add("pokemon-card");
+        let pokemonCard = $("<div class='pokemon-card'></div>");
 
-        let listItem = document.createElement("li"); //Creating a list item and setting it's class for the css file
-        listItem.classList.add("list-item");
+        let titleElement = $(
+            "<p class='card-title'>" + pokemon.name.toUpperCase() + "</p>"
+        );
 
-        let titleElement = document.createElement("p");
-        titleElement.classList.add("card-title");
-        titleElement.textContent = pokemon.name.toUpperCase();
+        let imgElement = $(
+            "<img src='https://via.placeholder.com/100' class='card-image' id='" +
+                pokemon.name +
+                "'></img>"
+        ); //Adding the 'pokemon.name' to allow searching for updating the image after the async request
 
-        let imgElement = document.createElement("img");
-        imgElement.classList.add("card-image");
-        imgElement.classList.add(pokemon.name); //Adding this to allow searching for updating the image after an async request
-
-        let button = document.createElement("button"); //Creating a button, applying the pokemon name to it, and setting it's class for the css file.
-        button.innerText = "Details";
-        button.classList.add("card-button");
-        button.addEventListener("click", function () {
+        //Creating a button, applying the pokemon name to it, and setting it's class for the css file.
+        let button = $("<button class='card-button'>Details</button>");
+        button.on("click", function () {
             showDetails(pokemon);
         });
 
-        let cardBody = document.createElement("div");
-        cardBody.classList.add("card-body");
+        let cardBody = $("<div class='card-body'></div>");
 
-        cardBody.appendChild(imgElement);
-        cardBody.appendChild(button);
+        cardBody.append(imgElement);
+        cardBody.append(button);
 
-        pokemonCard.appendChild(titleElement);
-        pokemonCard.appendChild(cardBody);
+        pokemonCard.append(titleElement);
+        pokemonCard.append(cardBody);
 
-        documentPokemonList.appendChild(pokemonCard); //adding the list item to the list itself
+        documentPokemonList.append(pokemonCard); //adding the list item to the list itself
 
         return pokemonCard;
     }
