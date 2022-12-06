@@ -3,8 +3,8 @@
     --base-height: 200px;
 }
 
-html {
-    background-color: darkgray;
+body {
+    background-color: steelblue;
     text-align: center;
 }
 
@@ -51,8 +51,21 @@ html {
     margin: 10px;
 
     font-size: 18px;
-    transition: 1s;
+    transition: 0.5s;
+
+    border-top: 2px solid lightgray;
+    border-right: 2px solid darkgray;
+    border-bottom: 2px solid darkgray;
+    border-left: 2px solid lightgray;
 }
+
+.card-button:hover {
+    border-top: 2px solid darkgray;
+    border-right: 2px solid lightgray;
+    border-bottom: 2px solid lightgray;
+    border-left: 2px solid darkgray;
+}
+
 .modal-container {
     display: none;
 }
