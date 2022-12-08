@@ -67,34 +67,34 @@ let pokemonRepository = (function () {
 
         pokemonRepository.loadDetails(pokemon).then(function () {
             //The only bit of information the card is missing is populating the front image
-            $("#" + pokemon.name).attr("src", pokemon.imageFront);
+            $('#' + pokemon.name).attr('src', pokemon.imageFront);
         });
     }
 
     function createCard(pokemon) {
-        const documentPokemonList = $(".pokemon-list"); //Selecting the unordered list in the HTML
+        const documentPokemonList = $('.pokemon-list'); //Selecting the unordered list in the HTML
 
-        let pokemonCard = $("<div class='pokemon-card'></div>");
+        let pokemonCard = $('<div class=\'pokemon-card\'></div>');
 
         let titleElement = $(
-            "<p class='card-title'>" + pokemon.name.toUpperCase() + "</p>"
+            '<p class=\'card-title\'>' + pokemon.name.toUpperCase() + '</p>'
         );
 
         let imgElement = $(
-            "<img src='https://via.placeholder.com/100' class='card-image' id='" +
+            '<img src=\'https://via.placeholder.com/100\' class=\'card-image\' id=\'' +
                 pokemon.name +
-                "'></img>"
+                '\'></img>'
         ); //Adding the 'pokemon.name' to allow searching for updating the image after the async request
 
         //Creating a button, applying the pokemon name to it, and setting it's class for the css file.
         let button = $(
             '<button type="button" class="card-button btn" data-toggle="modal" data-target="#pokemonModal">Details</button>'
         );
-        button.on("click", function () {
+        button.on('click', function () {
             showDetails(pokemon);
         });
 
-        let cardBody = $("<div class='card-body'></div>");
+        let cardBody = $('<div class=\'card-body\'></div>');
 
         cardBody.append(imgElement);
         cardBody.append(button);
@@ -123,14 +123,14 @@ let pokemonRepository = (function () {
     * * * */
     function showModal(pokemon) {
         //Updates all the placeholder info in the Modal
-        $(".modal-title").html(displayString(pokemon.name));
+        $('.modal-title').html(displayString(pokemon.name));
 
-        $("#image-front").attr("src", pokemon.imageFront);
-        $("#image-rear").attr("src", pokemon.imageBack);
+        $('#image-front').attr('src', pokemon.imageFront);
+        $('#image-rear').attr('src', pokemon.imageBack);
 
-        $("#details-height").text("Height: " + displayHeight(pokemon.height));
-        $("#details-weight").text("Weight: " + displayWeight(pokemon.weight));
-        $("#details-types").text("Types: " + displayTypes(pokemon.types));
+        $('#details-height').text('Height: ' + displayHeight(pokemon.height));
+        $('#details-weight').text('Weight: ' + displayWeight(pokemon.weight));
+        $('#details-types').text('Types: ' + displayTypes(pokemon.types));
     }
 
     function displayHeight(value) {
