@@ -41,7 +41,6 @@ body {
 .card-image {
     width: 40%;
     margin: 10px;
-    border-right: 3px solid darkgray;
 }
 
 .card-button {
