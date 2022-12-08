@@ -74,16 +74,16 @@ let pokemonRepository = (function () {
     function createCard(pokemon) {
         const documentPokemonList = $('.pokemon-list'); //Selecting the unordered list in the HTML
 
-        let pokemonCard = $('<div class=\'pokemon-card\'></div>');
+        let pokemonCard = $('<div class="pokemon-card"></div>');
 
         let titleElement = $(
-            '<p class=\'card-title\'>' + pokemon.name.toUpperCase() + '</p>'
+            '<p class="card-title">' + pokemon.name.toUpperCase() + '</p>'
         );
 
         let imgElement = $(
-            '<img src=\'https://via.placeholder.com/100\' class=\'card-image\' id=\'' +
+            '<img src="https://via.placeholder.com/100" class="card-image" id="' +
                 pokemon.name +
-                '\'></img>'
+                '"></img>'
         ); //Adding the 'pokemon.name' to allow searching for updating the image after the async request
 
         //Creating a button, applying the pokemon name to it, and setting it's class for the css file.
@@ -94,7 +94,7 @@ let pokemonRepository = (function () {
             showDetails(pokemon);
         });
 
-        let cardBody = $('<div class=\'card-body\'></div>');
+        let cardBody = $('<div class="card-body"></div>');
 
         cardBody.append(imgElement);
         cardBody.append(button);
