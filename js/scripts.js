@@ -27,10 +27,10 @@ let pokemonRepository = (function () {
     }
 
     //Load more detailed information on a specific pokemon from its api URL
-    function loadDetails(item) {
+    const loadDetails = (item) => {
         let url = item.detailsURL;
         return fetch(url)
-            .then(function (response) {
+            .then( (response) => {
                 return response.json();
             })
             .then(function (details) {
